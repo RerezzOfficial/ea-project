@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const showProductDetail = (product) => {
         document.getElementById("modalProductName").textContent = product.name;
-        document.getElementById("modalProductImage").src = `/uploads/${product.photo}`;
+        document.getElementById("modalProductImage").src = product.photo; // Foto ditampilkan langsung dalam format Base64
         document.getElementById("modalProductPrice").textContent = `Rp ${product.price}`;
         document.getElementById("modalProductDescription").textContent = product.description;
 
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         li.classList.add('product-item');
 
         const img = document.createElement("img");
-        img.src = `/uploads/${product.photo}`;
+        img.src = product.photo; // Menampilkan gambar dalam format Base64
         img.alt = product.name;
         li.appendChild(img);
 
