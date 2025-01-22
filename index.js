@@ -135,6 +135,7 @@ app.post("/api/products", requireLogin, upload.single("photo"), async (req, res)
   }
 });
 
+// Menghapus produk berdasarkan ID
 app.delete("/api/products/:id", requireLogin, (req, res) => {
   const productId = req.params.id;
 
@@ -147,6 +148,8 @@ app.delete("/api/products/:id", requireLogin, (req, res) => {
       products.splice(productIndex, 1); // Hapus produk dari array
       fs.writeFileSync(productsFile, JSON.stringify(products, null, 2));
 
+      console.log(`Produk dengan ID ${productId} berhasil dihapus!`); // Log penghapusan produk
+
       res.json({ message: "Produk berhasil dihapus!" });
     } else {
       res.status(400).json({ message: "ID produk tidak valid!" });
@@ -155,7 +158,6 @@ app.delete("/api/products/:id", requireLogin, (req, res) => {
     res.status(404).json({ message: "Produk tidak ditemukan!" });
   }
 });
-
 
 // Jalankan server
 app.listen(PORT, () => {
