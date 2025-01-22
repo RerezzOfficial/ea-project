@@ -8,7 +8,7 @@ const app = express();
 const PORT = 3000;
 
 // Pastikan folder uploads ada
-const uploadsDir = path.join(__dirname, "public", "uploads");
+const targetPath = path.resolve("public", "uploads", req.file.filename);
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir); // Buat folder jika belum ada
 }
