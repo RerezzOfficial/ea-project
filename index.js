@@ -6,7 +6,7 @@ const multer = require("multer");
 const sharp = require("sharp"); // Untuk memproses gambar jika diperlukan
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // Menggunakan PORT dari Railway, jika tidak ada, default ke 3000
 
 // Pastikan folder uploads ada (meski kita tidak akan menyimpan gambar di sini)
 const uploadsDir = path.join(__dirname, "public", "uploads");
