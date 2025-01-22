@@ -6,7 +6,7 @@ const multer = require("multer");
 const sharp = require("sharp"); // Untuk memproses gambar jika diperlukan
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Pastikan folder uploads ada (meski kita tidak akan menyimpan gambar di sini)
 const uploadsDir = path.join(__dirname, "public", "uploads");
@@ -158,5 +158,5 @@ app.delete("/api/products/:id", requireLogin, (req, res) => {
 
 // Jalankan server
 app.listen(PORT, () => {
-  console.log(`Server berjalan di http://localhost:${PORT}`);
+  console.log(`Server berjalan di port ${PORT}`);
 });
