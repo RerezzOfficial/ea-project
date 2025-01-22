@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const response = await fetch("/api/products");
         const products = await response.json();
 
-        products.forEach((product, index) => {
+        products.forEach((product) => {
             const li = document.createElement("li");
             li.textContent = `${product.name} - Rp${product.price}`;
 
@@ -19,7 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Fungsi hapus produk
             deleteButton.addEventListener("click", async () => {
-                await fetch(`/api/products/${index}`, { method: "DELETE" });
+                // Menggunakan id produk untuk menghapus
+                await fetch(`/api/products/${product.id}`, { method: "DELETE" });
                 loadProducts(); // Perbarui daftar setelah produk dihapus
             });
 
