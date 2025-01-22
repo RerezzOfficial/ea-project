@@ -93,36 +93,40 @@ app.get("/api/products", (req, res) => {
   }
 });
 
-// Menambah produk (hanya untuk admin)
+const fs = require("fs");
+const path = require("path");
+
 app.post("/api/products", requireLogin, upload.single("photo"), (req, res) => {
   try {
-    // Memeriksa apakah file foto berhasil diunggah
     if (!req.file) {
       return res.status(400).json({ message: "Foto produk wajib diunggah!" });
     }
 
+    // Pindahkan file dari /tmp ke public/uploads
+    const tempPath = path.join("/tmp", req.file.filename);
+    const targetPath = path.join(__dirname, "public", "uploads", req.file.filename);
+
+    // Pindahkan file
+    fs.renameSync(tempPath, targetPath);
+
     // Membuat produk baru dari form data
     const newProduct = {
-      id: Date.now().toString(), // Menambahkan ID unik untuk setiap produk
+      id: Date.now().toString(),
       name: req.body.name,
       price: req.body.price,
       description: req.body.description,
       whatsapp: req.body.whatsapp,
       telegram: req.body.telegram,
-      photo: req.file.filename, // Menyimpan nama file foto yang diunggah
+      photo: req.file.filename, // Menyimpan nama file yang dipindahkan
     };
 
-    // Menyimpan produk ke file
     let products = [];
     if (fs.existsSync(productsFile)) {
       products = JSON.parse(fs.readFileSync(productsFile, "utf8"));
     }
 
     products.push(newProduct);
-
     fs.writeFileSync(productsFile, JSON.stringify(products, null, 2));
-
-    console.log("Produk berhasil ditambahkan:", newProduct); // Log produk yang ditambahkan
 
     res.status(201).json({ message: "Produk berhasil ditambahkan!" });
   } catch (error) {
