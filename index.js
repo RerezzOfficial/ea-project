@@ -93,8 +93,6 @@ app.get("/api/products", (req, res) => {
   }
 });
 
-const fs = require("fs");
-const path = require("path");
 
 app.post("/api/products", requireLogin, upload.single("photo"), (req, res) => {
   try {
