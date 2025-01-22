@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f9f8;
+            color: #444;
+            line-height: 1.6;
+            padding-top: 80px;
+            font-size: 16px;
+        }
+
+        header {
+            background-color: #1abc9c;
+            color: #fff;
+            padding: 20px 50px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-bottom: 5px solid #16a085;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .about-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+
+        .about-section .bio {
+            max-width: 600px;
+            margin-left: 30px;
+            text-align: left;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .about-section .bio h2 {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: #1abc9c;
+            margin-bottom: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .about-section .bio p {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .about-section img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 5px solid #16a085;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            animation: scaleUp 1s ease-in-out;
+        }
+
+        .about-section img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-info {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            margin-top: 30px;
+            text-align: left;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .contact-info h3 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #1abc9c;
+        }
+
+        .contact-info ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .contact-info ul li {
+            font-size: 1.2em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info ul li:hover {
+            transform: scale(1.05);
+            color: #16a085;
+        }
+
+        .contact-info ul li i {
+            font-size: 1.5em;
+            color: #1abc9c;
+            margin-right: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info ul li a {
+            text-decoration: none;
+            color: #2c3e50;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info ul li a:hover {
+            color: #16a085;
+        }
+
+        footer {
+            background-color: #1abc9c;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            border-top: 5px solid #16a085;
+        }
+
+        footer p {
+            font-size: 1em;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 20px 30px;
+            }
+
+            header h1 {
+                font-size: 2.2em;
+            }
+
+            .about-section {
+                flex-direction: column;
+                padding: 30px 10px;
+            }
+
+            .about-section .bio h2 {
+                font-size: 2.5em;
+            }
+
+            .bio p {
+                font-size: 1.1em;
+            }
+
+            .contact-info {
+                width: 90%;
+                margin: 0 auto;
+            }
+
+            .contact-info h3 {
+                font-size: 1.8em;
+            }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>About Me</h1>
+    </header>
+
+    <section class="about-section">
+        <div>
+            <img src="profile.jpg" alt="Profile Picture">
+        </div>
+        <div class="bio">
+            <h2>ABOUT ME</h2>
+            <p>
+                deesk 1
+            </p>
+            <p>
+                desk 2
+            </p>
+        </div>
+
+        <div class="contact-info">
+            <h3>Hubungi Saya</h3>
+            <ul>
+                <li><i class="fas fa-envelope"></i><a href="mailto:rerezz@example.com">rerezz@example.com</a></li>
+                <li><i class="fab fa-whatsapp"></i><a href="https://wa.me/" target="_blank">+62 123 456 789</a></li>
+                <li><i class="fab fa-telegram"></i><a href="https://t.me/" target="_blank">@rerezz</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Rerezz. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
