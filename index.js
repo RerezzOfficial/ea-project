@@ -156,6 +156,7 @@ app.delete("/api/products/:id", requireLogin, (req, res) => {
   }
 });
 
+
 // Jalankan server
 app.listen(PORT, () => {
   console.log(`Server berjalan di port ${PORT}`);
