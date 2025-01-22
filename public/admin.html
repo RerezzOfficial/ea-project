@@ -139,7 +139,7 @@
   <h1>Admin Panel</h1>
 
   <h2>Tambah Produk</h2>
-  <form id="addProductForm">
+  <form id="addProductForm" enctype="multipart/form-data">
     <label for="name">Nama Produk:</label>
     <input type="text" id="name" name="name" required>
   
@@ -155,8 +155,8 @@
     <label for="telegram">Telegram:</label>
     <input type="text" id="telegram" name="telegram">
   
-    <label for="photo">URL Foto:</label>
-    <input type="text" id="photo" name="photo" required>
+    <label for="photo">Foto:</label>
+    <input type="file" id="photo" name="photo" required>
   
     <button type="submit">Tambah Produk</button>
   </form>
