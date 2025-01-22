@@ -1,0 +1,16 @@
+{
+    "name": "simple-website",
+    "version": "1.0.0",
+    "description": "A simple Node.js website with login functionality",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "body-parser": "^1.20.2",
+        "cookie-parser": "^1.4.7",
+        "express": "latest",
+        "multer": "^1.4.5-lts.1",
+        "path": "latest"
+    }
+}
