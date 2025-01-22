@@ -7,10 +7,9 @@ const multer = require("multer");
 const app = express();
 const PORT = 3000;
 
-// Pastikan folder uploads ada
 const uploadsDir = path.join(__dirname, "public", "uploads");
 if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir); // Buat folder jika belum ada
+  fs.mkdirSync(uploadsDir);
 }
 
 app.use(express.json());
@@ -18,13 +17,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Konfigurasi multer untuk menyimpan file ke folder 'uploads'
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, uploadsDir); // Simpan di folder public/uploads
+    cb(null, uploadsDir);
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Nama file berdasarkan timestamp
+    cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 const upload = multer({ storage: storage });
@@ -32,25 +30,16 @@ const upload = multer({ storage: storage });
 const accountsFile = path.join(__dirname, "accounts.json");
 const productsFile = path.join(__dirname, "products.json");
 
-// Middleware untuk memeriksa login
 function requireLogin(req, res, next) {
   if (req.cookies && req.cookies.loggedIn) {
-    next(); // Lanjutkan ke rute berikutnya jika sudah login
+    next();
   } else {
-    res.redirect("/login"); // Arahkan ke halaman login jika belum login
+    res.redirect("/login");
   }
 }
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-app.get("/scriptadmin", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "admin.js"));
-});
-
-app.get("/scriptindex", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.js"));
 });
 
 app.get("/login", (req, res) => {
@@ -63,15 +52,13 @@ app.get("/admin", requireLogin, (req, res) => {
 
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
-
   if (fs.existsSync(accountsFile)) {
     const accounts = JSON.parse(fs.readFileSync(accountsFile, "utf8"));
     const user = accounts.find(
       (account) => account.username === username && account.password === password
     );
-
     if (user) {
-      res.cookie("loggedIn", true, { httpOnly: true }); // Set cookie login
+      res.cookie("loggedIn", true, { httpOnly: true });
       res.redirect("/admin.html");
     } else {
       res.status(401).send("Login gagal. Periksa username dan password Anda.");
@@ -81,13 +68,11 @@ app.post("/login", (req, res) => {
   }
 });
 
-// Logout
 app.post("/logout", (req, res) => {
   res.clearCookie("loggedIn");
   res.redirect("/login.html");
 });
 
-// Mendapatkan semua produk
 app.get("/api/products", (req, res) => {
   if (fs.existsSync(productsFile)) {
     const products = JSON.parse(fs.readFileSync(productsFile, "utf8"));
@@ -97,36 +82,34 @@ app.get("/api/products", (req, res) => {
   }
 });
 
-// Menambah produk (hanya untuk admin)
 app.post("/api/products", requireLogin, upload.single("photo"), (req, res) => {
   try {
-    // Memeriksa apakah file foto berhasil diunggah
     if (!req.file) {
       return res.status(400).json({ message: "Foto produk wajib diunggah!" });
     }
 
-    // Membuat produk baru dari form data
+    const tempPath = path.join("/tmp", req.file.filename);
+    const targetPath = path.join(__dirname, "public", "uploads", req.file.filename);
+
+    fs.renameSync(tempPath, targetPath);
+
     const newProduct = {
-      id: Date.now().toString(), // Menambahkan ID unik untuk setiap produk
+      id: Date.now().toString(),
       name: req.body.name,
       price: req.body.price,
       description: req.body.description,
       whatsapp: req.body.whatsapp,
       telegram: req.body.telegram,
-      photo: req.file.filename, // Menyimpan nama file foto yang diunggah
+      photo: req.file.filename,
     };
 
-    // Menyimpan produk ke file
     let products = [];
     if (fs.existsSync(productsFile)) {
       products = JSON.parse(fs.readFileSync(productsFile, "utf8"));
     }
 
     products.push(newProduct);
-
     fs.writeFileSync(productsFile, JSON.stringify(products, null, 2));
-
-    console.log("Produk berhasil ditambahkan:", newProduct); // Log produk yang ditambahkan
 
     res.status(201).json({ message: "Produk berhasil ditambahkan!" });
   } catch (error) {
@@ -137,21 +120,16 @@ app.post("/api/products", requireLogin, upload.single("photo"), (req, res) => {
 
 app.delete("/api/products/:id", requireLogin, (req, res) => {
   const productId = req.params.id;
-
   if (fs.existsSync(productsFile)) {
     let products = JSON.parse(fs.readFileSync(productsFile, "utf8"));
-
     const productIndex = products.findIndex((product) => product.id === productId);
-
     if (productIndex !== -1) {
       const deletedProduct = products.splice(productIndex, 1)[0];
       fs.writeFileSync(productsFile, JSON.stringify(products, null, 2));
-
       if (deletedProduct.photo) {
         const photoPath = path.join(__dirname, "public", "uploads", deletedProduct.photo);
-        fs.unlinkSync(photoPath); 
+        fs.unlinkSync(photoPath);
       }
-
       res.json({ message: "Produk berhasil dihapus!" });
     } else {
       res.status(400).json({ message: "ID produk tidak valid!" });
@@ -161,7 +139,6 @@ app.delete("/api/products/:id", requireLogin, (req, res) => {
   }
 });
 
-// Jalankan server
 app.listen(PORT, () => {
   console.log(`Server berjalan di http://localhost:${PORT}`);
 });
